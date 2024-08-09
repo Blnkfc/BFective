@@ -7,10 +7,14 @@ module.exports = {
     extend: {
       colors:{
         primary: "#e0b790",
-        secondary: "#572e08"
+        secondary: "#572e08",
+        accent: "#a1cf84"
       },
       gridTemplateColumns:{
         66: "2fr 1fr"
+      },
+      gridTemplateRows:{
+        sb: "1fr 4fr 0.5fr"
       }
     },
   },

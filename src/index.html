@@ -6,23 +6,40 @@
     <title>Document</title>
     <link rel="stylesheet" href="output.css">
 </head>
-<body class="w-[35em] grid grid-cols-66 gap-4 bg-primary" >
-    <section class="" >
-        <nav id="nav" class=" grid grid-cols-3 " >
-            <button class="border-solid border-secondary border-2 p-4 font-bold text-secondary" >ToDos</button>
-            <button class="border-solid border-secondary border-2 p-4 font-bold text-secondary"  >Notes</button>
-            <button class="border-solid border-secondary border-2 p-4 font-bold text-secondary"  >Reminders </button>
+<body class="w-[40em] h-[50em] grid grid-cols-66 bg-primary" id="root" >
+    <div class="flex flex-col" >
+        <nav id="nav" class="h-[5em] grid grid-cols-3 " >
+            <button class="border-solid border-secondary border-2 p-4 font-bold text-secondary" id="nav-todo" >ToDos</button>
+            <button class="border-solid border-secondary border-2 p-4 font-bold text-secondary" id="nav-notes" >Notes</button>
+            <button class="border-solid border-secondary border-2 p-4 font-bold text-secondary" id="nav-reminders" >Reminders </button>
         </nav>
-        <div id="content">
-            TEst
-            <button id="addsmth" >Button</button>
-        </div>
-    </section>
-    <section>
-        <h2>
-            Your note:
+        <section class="flex flex-col h-full" id="content-TODO" >
+            <div id="content">
+                <h1 class="m-2 text-lg" >Your TODOs</h1>
+                <button id="addsmth" >Button</button>
+            </div>
+        </section>
+        <section class="flex flex-col h-full" id="content-Notes" >
+            <div id="content">
+                <h1 class="m-2 text-lg" >Your Notes</h1>
+                <button id="addsmth" >Button</button>
+            </div>
+        </section>
+        <section class="flex flex-col h-full" id="content-Reminders" >
+            <div id="content">
+                <h1 class="m-2 text-lg" >Your Reminders</h1>
+                <button id="addsmth" >Button</button>
+            </div>
+        </section>
+    </div>
+    <section class="grid grid-rows-sb border-solid border-secondary border-l-2 justify-between " >
+        <h2 class="h-[5em] text-lg p-4 font-bold" >
+            Add TODO:
         </h2>
-        <input type="text">
+        <textarea placeholder="Your TODO here" type="text" class="m-4 bg-accent opacity-[70%] text-secondary font-bold text-start
+        border-solid border-2 border-secondary resize-none" ></textarea>
+        <button class="p-4 bg-secondary text-primary font-bold
+        hover:text-accent" >Add</button>
     </section>
     <script src="index.js"></script>
 </body>
