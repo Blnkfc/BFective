@@ -554,10 +554,6 @@ video {
   --tw-contain-style:  ;
 }
 
-.m-4 {
-  margin: 1rem;
-}
-
 .m-2 {
   margin: 0.5rem;
 }
@@ -594,6 +590,10 @@ video {
   resize: none;
 }
 
+.auto-rows-min {
+  grid-auto-rows: min-content;
+}
+
 .grid-cols-3 {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
@@ -612,6 +612,14 @@ video {
 
 .justify-between {
   justify-content: space-between;
+}
+
+.self-end {
+  align-self: flex-end;
+}
+
+.justify-self-end {
+  justify-self: end;
 }
 
 .border-2 {
@@ -659,11 +667,6 @@ video {
   background-color: rgb(87 46 8 / var(--tw-bg-opacity));
 }
 
-.bg-white {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-
 .p-4 {
   padding: 1rem;
 }
@@ -672,8 +675,18 @@ video {
   text-align: start;
 }
 
+.text-3xl {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+}
+
 .text-lg {
   font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.text-xl {
+  font-size: 1.25rem;
   line-height: 1.75rem;
 }
 
@@ -691,12 +704,18 @@ video {
   color: rgb(87 46 8 / var(--tw-text-opacity));
 }
 
-.opacity-\[20\%\] {
-  opacity: 20%;
-}
-
 .opacity-\[70\%\] {
   opacity: 70%;
+}
+
+.placeholder\:text-secondary::-moz-placeholder {
+  --tw-text-opacity: 1;
+  color: rgb(87 46 8 / var(--tw-text-opacity));
+}
+
+.placeholder\:text-secondary::placeholder {
+  --tw-text-opacity: 1;
+  color: rgb(87 46 8 / var(--tw-text-opacity));
 }
 
 .hover\:text-accent:hover {
