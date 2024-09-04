@@ -13,16 +13,18 @@ let [currentActivePage, setCurrentActivePage] = state(1)
 
 
 function deleteClass (element, classStr) {
-    element.className = (' '+element.className+' ').split(' ' + classStr + ' ').join(' ');
+    if(element)
+        element.className = (' '+element.className+' ').split(' ' + classStr + ' ').join(' ');
 }
 function addClass (element, classStr){
-    element.className += ' ' + classStr;
+    if(element)
+        element.className += ' ' + classStr;
 }
 
 const navTodo = document.getElementById('nav-todo')
 const navNotes = document.getElementById('nav-notes')
 const navReminders = document.getElementById('nav-reminders')
-const TODO = document.getElementById('content-TODO')
+const TODO = document.getElementById('content-Todo')
 const Notes = document.getElementById('content-Notes')
 const Reminders = document.getElementById('content-Reminders')
 
