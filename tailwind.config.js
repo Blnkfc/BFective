@@ -6,9 +6,10 @@ module.exports = {
   theme: {
     extend: {
       colors:{
-        primary: "#e0b790",
-        secondary: "#572e08",
-        accent: "#a1cf84"
+        primary: "#ffe1d1",
+        secondary: "#c93f3f",
+        accent: "#e98888",
+        text: "#292929"
       },
       gridTemplateColumns:{
         66: "2fr 1fr"

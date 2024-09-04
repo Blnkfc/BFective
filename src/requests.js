@@ -12,19 +12,41 @@ const fetchAllTodos = async () => {
     const data = await response.json()
     return data;
 }
+const fetchAllNotes = async () => {
+    const response =  await fetch('http://localhost:3000/api/notes')
+    const data = await response.json()
+    return data;
+}
+const fetchAllReminders = async () => {
+    const response =  await fetch('http://localhost:3000/api/reminders')
+    const data = await response.json()
+    return data;
+}
 
-const rePopulateTodos = async () => {
+const rePopulateContent = async (fetchId) => {
     todoPageContent.innerHTML = ""
-    const allTodos = await fetchAllTodos()
-    console.log(allTodos)
-    allTodos.forEach(t => {
+    let allContentItems = []
+    switch(fetchId){
+      case 1:{
+        allContentItems = await fetchAllTodos()
+      }
+      case 2:{
+        allContentItems = await fetchAllNotes()
+      }
+      case 3:{
+        allContentItems = await fetchAllReminders()
+      }
+    }
+
+    allContentItems.forEach(t => {
         const todoElement = document.createElement('details')
         const todoTitle = document.createElement('summary')
         const todoContent = document.createElement('p')
 
 
-        addClass(todoTitle, 'text-xl font-bold ')
-        addClass(todoContent, 'text-lg')
+        
+        addClass(todoTitle, 'text-xl font-bold pl-4')
+        addClass(todoContent, 'text-lg pl-2')
 
 
         todoTitle.textContent = t.title
@@ -35,7 +57,7 @@ const rePopulateTodos = async () => {
     });
 }
 
-rePopulateTodos()
+rePopulateContent(1)
 
 const addTodoBtn = document.getElementById('add_content')
 addTodoBtn.addEventListener('click', async () => {
