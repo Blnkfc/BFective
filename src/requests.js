@@ -29,12 +29,15 @@ const rePopulateContent = async (fetchId) => {
     switch(fetchId){
       case 1:{
         allContentItems = await fetchAllTodos()
+        break
       }
       case 2:{
         allContentItems = await fetchAllNotes()
+        break
       }
       case 3:{
         allContentItems = await fetchAllReminders()
+        break
       }
     }
 

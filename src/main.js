@@ -8,9 +8,8 @@ function state(value) {
 }
 
 
-let [todoPage, setTodoPage] = state(true)
-let [notesPage, setNotesPage] = state(false)
-let [remindersPage, setRemindersPage] = state(false)
+
+let [currentActivePage, setCurrentActivePage] = state(1)
 
 
 function deleteClass (element, classStr) {
@@ -93,11 +92,11 @@ function setPage(id){
         }
     }
 }
-setPage(1)
+setPage(currentActivePage)
 
-navTodo.addEventListener('click', () => setPage(1))
-navNotes.addEventListener('click', () => setPage(2))
-navReminders.addEventListener('click', () => setPage(3))
+navTodo.addEventListener('click', () => {setPage(1); setCurrentActivePage(1)})
+navNotes.addEventListener('click', () => {setPage(2); setCurrentActivePage(2)})
+navReminders.addEventListener('click', () => {setPage(3); setCurrentActivePage(3)})
 
 
 const root = document.getElementById('root')
