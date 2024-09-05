@@ -38,13 +38,13 @@ const rePopulateContent = async (fetchId) => {
         allTodoItems.forEach(t => {
           const todoElement = document.createElement('details')
           const todoTitle = document.createElement('summary')
-          const todoContent = document.createElement('p')
+          const todoContent = document.createElement('div')
   
   
           
           addClass(todoTitle, 'text-xl font-bold mx-1')
-          addClass(todoContent, 'delay-0 ease-in translate-x-8 opacity-0 group-open:translate-x-0 group-open:opacity-100 transition-transform duration-250 text-lg text-white border-accent border-solid border-2 mx-1 bg-transparent rounded-b-md  ')
-          addClass(todoElement, 'group open:border-solid open:border-2 open:border-secondary open:bg-accent hover:cursor-pointer ')
+          addClass(todoContent, 'text-white text-lg border-accent border-solid border-2 mx-1 bg-accent rounded-b-md scale-0 transition-all ease-linear group-open:scale-100')
+          addClass(todoElement, 'open:border-solid open:border-2 open:border-secondary open:bg-accent hover:cursor-pointer group ')
   
   
           todoTitle.textContent = t.title
@@ -66,14 +66,29 @@ const rePopulateContent = async (fetchId) => {
           const noteContentWrapper = document.createElement('div')
           noteContent.readOnly = true
 
+          const noteSettings = document.createElement('div')
+          const settingsEdit = document.createElement('button')
+          const settingsSave = document.createElement('button')
+          const settingsDelete = document.createElement('button')
+
+          settingsEdit.textContent = "E"
+          settingsSave.textContent = "S"
+          settingsDelete.textContent = "D"
+          noteSettings.appendChild(settingsEdit)
+          noteSettings.appendChild(settingsSave)
+          noteSettings.appendChild(settingsDelete)
+
+          
+
           addClass(noteTitle, 'text-xl font-bold mx-1 pl-2')
           addClass(noteContent, noteContentReadOnlyMode)
           addClass(noteContentWrapper, 'border-accent border-solid border-2 mx-1 bg-accent rounded-b-md scale-0 transition-all ease-linear group-open:scale-100 ')
-          addClass(noteElement, 'open:border-solid open:border-2 open:border-secondary open:first:bg-accent hover:cursor-pointer group')
+          addClass(noteElement, 'open:border-solid open:border-2 open:border-secondary open:bg-accent hover:cursor-pointer group')
 
           noteTitle.textContent = n.title
           noteContent.value = n.content
           noteContentWrapper.appendChild(noteContent)
+          noteContentWrapper.appendChild(noteSettings)
           noteElement.appendChild(noteTitle)
           noteElement.appendChild(noteContentWrapper)
           notePageContent.appendChild(noteElement)
