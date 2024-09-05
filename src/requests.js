@@ -31,10 +31,9 @@ const rePopulateContent = async (fetchId) => {
     todoPageContent.innerHTML = ""
     notePageContent.innerHTML = ""
     reminderPageContent.innerHTML = ""
-    let allContentItems = []
     switch(fetchId){
       case 1:{
-        allTodoItems = await fetchAllTodos()
+        const allTodoItems = await fetchAllTodos()
         console.log(`all todos ${allTodoItems}`)
         allTodoItems.forEach(t => {
           const todoElement = document.createElement('details')
@@ -43,8 +42,9 @@ const rePopulateContent = async (fetchId) => {
   
   
           
-          addClass(todoTitle, 'text-xl font-bold pl-4')
-          addClass(todoContent, 'text-lg pl-2')
+          addClass(todoTitle, 'text-xl font-bold mx-1')
+          addClass(todoContent, 'delay-0 ease-in translate-x-8 opacity-0 group-open:translate-x-0 group-open:opacity-100 transition-transform duration-250 text-lg text-white border-accent border-solid border-2 mx-1 bg-transparent rounded-b-md  ')
+          addClass(todoElement, 'group open:border-solid open:border-2 open:border-secondary open:bg-accent hover:cursor-pointer ')
   
   
           todoTitle.textContent = t.title
@@ -56,21 +56,26 @@ const rePopulateContent = async (fetchId) => {
         break
       }
       case 2:{
-        allNoteItems = await fetchAllNotes()
+        const allNoteItems = await fetchAllNotes()
         console.log(`all notes ${allNoteItems}`)
+        const noteContentReadOnlyMode = 'text-lg pl-1 bg-transparent text-white border-none outline-none'
         allNoteItems.forEach(n => {
           const noteElement = document.createElement('details')
           const noteTitle = document.createElement('summary')
           const noteContent = document.createElement('input')
+          const noteContentWrapper = document.createElement('div')
           noteContent.readOnly = true
 
-          addClass(noteTitle, 'text-xl font-bold pl-4')
-          addClass(noteContent, 'text-lg pl-2')
+          addClass(noteTitle, 'text-xl font-bold mx-1 pl-2')
+          addClass(noteContent, noteContentReadOnlyMode)
+          addClass(noteContentWrapper, 'border-accent border-solid border-2 mx-1 bg-accent rounded-b-md scale-0 transition-all ease-linear group-open:scale-100 ')
+          addClass(noteElement, 'open:border-solid open:border-2 open:border-secondary open:first:bg-accent hover:cursor-pointer group')
 
           noteTitle.textContent = n.title
-          noteContent.textContent = n.content
+          noteContent.value = n.content
+          noteContentWrapper.appendChild(noteContent)
           noteElement.appendChild(noteTitle)
-          noteElement.appendChild(noteContent)
+          noteElement.appendChild(noteContentWrapper)
           notePageContent.appendChild(noteElement)
         })
         break
