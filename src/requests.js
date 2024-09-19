@@ -13,6 +13,8 @@ class NoteConstructor {
   }
 }
 
+const currentDate = new Date()
+
 
 
 
@@ -57,7 +59,7 @@ const rePopulateContent = async (fetchId) => {
 
 
         addClass(todoTitle, 'text-xl font-bold mx-1')
-        addClass(todoContent, 'text-white text-lg border-accent border-solid border-2 mx-1 bg-accent rounded-b-md scale-0 transition-all ease-linear group-open:scale-100')
+        addClass(todoContent, 'text-white text-lg border-accent border-solid border-2 mx-1 bg-accent rounded-b-md transition-all ease-linear group-open:animate-appear-from-bottom')
         addClass(todoElement, 'open:border-solid open:border-2 open:border-secondary open:bg-accent hover:cursor-pointer group ')
 
 
@@ -73,7 +75,7 @@ const rePopulateContent = async (fetchId) => {
       
     const allNoteItems = await fetchAllNotes()
     console.log(`all notes ${allNoteItems}`)
-    const noteContentReadOnlyMode = 'text-lg pl-1 bg-transparent text-white border-2 border-solid border-transparent outline-none'
+    const noteContentReadOnlyMode = 'text-lg pl-1 bg-transparent text-white border-2 border-solid border-transparent outline-none group-open:animate-appear-from-bottom'
     allNoteItems.forEach(n => {
         //Creating details tag with fetched content inside
         const noteElement = document.createElement('details')
@@ -98,29 +100,23 @@ const rePopulateContent = async (fetchId) => {
         settingsDelete.appendChild(settingsDeleteImg)
 
         //CONFIRM DELETE
-        const confirmDelete = document.createElement('div')
+        const confirmDelete = document.createElement('dialog')
         const confirmDeleteText = document.createElement('span')
         confirmDeleteText.textContent = 'Delete current note?'
         const confirmDeleteBtn = document.createElement('button')
         confirmDeleteBtn.textContent = 'CONFIRM'
         const cancelDeleteBtn = document.createElement('button')
         cancelDeleteBtn.textContent = '↺'
-        addClass(confirmDelete, 'hidden scale-0 bg-red-400 justify-between ')
-        addClass(confirmDeleteText, 'text-lg ')
-        addClass(confirmDeleteBtn, 'text-lg font-bold border-solid border-2 border-red-600 rounded-lg ')
-        addClass(cancelDeleteBtn, 'text-lg color-slate-600 border-solid border-2 border-slate-600 rounded-lg px-2')
+        addClass(confirmDelete, ' absolute   left-0 top-0 w-full h-full bg-red-400 content-center ')
+        addClass(confirmDeleteText, 'text-lg mr-[0.5em] ')
+        addClass(confirmDeleteBtn, 'text-lg h-fit font-bold border-solid border-2 border-red-600 rounded-lg ')
+        addClass(cancelDeleteBtn, 'text-lg h-fit color-slate-600 border-solid border-2 border-slate-600 rounded-lg px-2')
 
         confirmDeleteBtn.addEventListener('click', () => {
-            removeClass(confirmDelete, 'scale-100')
-            addClass(confirmDelete, 'scale-0 hidden')
-            removeClass(noteSettings, 'hidden')
-            addClass(noteSettings, 'block')
+          confirmDelete.close()
         })
         cancelDeleteBtn.addEventListener('click', () => {
-            removeClass(confirmDelete, 'scale-100')
-            addClass(confirmDelete, 'scale-0 hidden')
-            removeClass(noteSettings, 'hidden')
-            addClass(noteSettings, 'block')
+          confirmDelete.close()
         })
 
         confirmDelete.appendChild(confirmDeleteText)
@@ -130,9 +126,11 @@ const rePopulateContent = async (fetchId) => {
 
 
         //SETTINGS BUTTONS STYLES
-        addClass(settingsEdit, ' w-10 h-10 p-[0.5em] border-solid border-4 border-slate-700 rounded-lg ')
+        addClass(settingsEdit, ' w-10 h-10 p-[0.5em] border-solid border-4 border-slate-700 rounded-lg group-open:animate-appear-from-left animation-delay-75 ')
         addClass(settingsSave, ' w-10 h-10 hidden p-[0.5em] border-solid border-4 border-green-600 rounded-lg')
-        addClass(settingsDelete, ' w-10 h-10 p-[0.5em] ml-2 border-solid border-4 border-red-600 rounded-lg')
+        addClass(settingsDelete, ' relative w-10 h-10 p-[0.5em] ml-2 border-solid border-4 border-red-600 rounded-lg group-open:animate-appear-from-left')
+        
+        
         noteSettings.appendChild(settingsEdit)
         noteSettings.appendChild(settingsSave)
         noteSettings.appendChild(settingsDelete)
@@ -184,19 +182,15 @@ const rePopulateContent = async (fetchId) => {
         })
         //DELETE
         settingsDelete.addEventListener('click', () => {
-            removeClass(confirmDelete, 'scale-0 ')
-            removeClass(confirmDelete, 'hidden')
-            addClass(confirmDelete, 'scale-100 flex')
-            removeClass(noteSettings, 'flex')
-            addClass(noteSettings, 'hidden')
+            confirmDelete.show()
         })
 
 
         addClass(noteTitle, 'text-xl font-bold mx-1 pl-2')
         addClass(noteContent, noteContentReadOnlyMode)
         addClass(noteSettings, ' block text-right mt-4')
-        addClass(noteContentWrapper, ' flex flex-col border-accent border-solid border-2 mx-1 bg-accent rounded-b-md scale-0 transition-all ease-linear group-open:scale-100 ')
-        addClass(noteElement, 'open:border-solid open:border-2 open:border-secondary open:bg-accent hover:cursor-pointer group')
+        addClass(noteContentWrapper, ' flex flex-col border-accent border-solid border-2 mx-1 bg-accent rounded-b-md transition-all ease-linear')
+        addClass(noteElement, ' relative open:border-solid open:border-2 open:border-secondary open:bg-accent hover:cursor-pointer group')
 
         noteTitle.textContent = n.title
         noteContent.value = n.content
@@ -215,22 +209,53 @@ const rePopulateContent = async (fetchId) => {
       allReminderItems.forEach(r => {
         const reminderElement = document.createElement('details')
         const reminderTitle = document.createElement('summary')
-        const reminderContent = document.createElement('div')
+        const reminderContent = document.createElement('input')
+        const reminderContentWrapper = document.createElement('div')
         const reminderDate = document.createElement('div')
+        const reminderDateSpan = document.createElement('span')
         const reminderDateString = new Date(r.dateToRemind)
+        const setoffTimer = reminderDateString.getTime() - currentDate.getTime
+
+        const reminderSettings = document.createElement('div')
+        const settingsEdit = document.createElement('button')
+        const settingsEditImg = document.createElement('img')
+        settingsEditImg.src = 'https://i.imgur.com/c4ZYU6r.png'
+        settingsEdit.appendChild(settingsEditImg)
+        const settingsSave = document.createElement('button')
+        const settingsSaveImg = document.createElement('img')
+        settingsSaveImg.src = 'https://i.imgur.com/5c7JrnW.png'
+        settingsSave.appendChild(settingsSaveImg)
+        const settingsDelete = document.createElement('button')
+        const settingsDeleteImg = document.createElement('img')
+        settingsDeleteImg.src = 'https://i.imgur.com/Ey0yR4T.png'
+        settingsDelete.appendChild(settingsDeleteImg)
+        reminderSettings.appendChild(settingsEdit)
+        reminderSettings.appendChild(settingsSave)
+        reminderSettings.appendChild(settingsDelete)
+        addClass(reminderSettings, 'w-fit')
+        addClass(settingsEdit, ' w-10 h-10 p-[0.5em] border-solid border-4 border-slate-700 rounded-lg group-open:animate-appear-from-right ')
+        addClass(settingsSave, ' w-10 h-10 hidden p-[0.5em] border-solid border-4 border-green-600 rounded-lg')
+        addClass(settingsDelete, ' relative w-10 h-10 p-[0.5em] ml-2 border-solid border-4 border-red-600 rounded-lg group-open:animate-appear-from-right')
+        
 
 
-        addClass(reminderTitle, 'text-xl font-bold mx-1')
-        addClass(reminderContent, 'text-white text-lg border-accent border-solid border-2 mx-1 bg-accent rounded-b-md scale-0 transition-all ease-linear group-open:scale-100')
-        addClass(reminderElement, 'open:border-solid open:border-2 open:border-secondary open:bg-accent hover:cursor-pointer group ')
+        addClass(reminderTitle, 'text-xl font-bold mx-1 select-none')
+        addClass(reminderContent, 'text-white text-lg border-accent border-solid border-2 mx-1 bg-accent rounded-b-md transition-all ease-linear animate-none group-open:animate-appear-from-bottom ')
+        addClass(reminderElement, ' flex flex-col open:border-solid open:border-2 open:border-secondary open:bg-accent hover:cursor-pointer group ')
+        addClass(reminderDate, ' flex w-full justify-end')
+        addClass(reminderDateSpan, 'bg-primary rounded-full px-[0.5em]  text-secondary group-open:animate-appear-from-left')
 
+        console.log(reminderSettings)
 
+        reminderDateSpan.textContent = reminderDateString.toDateString()
         reminderTitle.textContent = r.title
-        reminderContent.textContent = r.content
-        reminderDate.textContent = reminderDateString.toDateString()
+        reminderContent.value = r.content
+        reminderDate.appendChild(reminderDateSpan)
+        reminderContentWrapper.appendChild(reminderContent)
+        reminderContentWrapper.appendChild(reminderDate)
+        reminderContentWrapper.appendChild(reminderSettings)
         reminderElement.appendChild(reminderTitle)
-        reminderElement.appendChild(reminderContent)
-        reminderElement.appendChild(reminderDate)
+        reminderElement.appendChild(reminderContentWrapper)
         reminderPageContent.appendChild(reminderElement)
       });
       
