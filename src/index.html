@@ -1,47 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="output.css">
 </head>
-<body class="w-[40em] h-[50em] grid grid-cols-66 bg-primary" id="root" >
-    <div class="flex flex-col" >
-        <nav id="nav" class="h-[5em] grid grid-cols-3 " >
-            <button class="border-solid border-secondary border-2 p-4 font-bold text-secondary" id="nav-todo" >ToDos</button>
-            <button class="border-solid border-secondary border-2 p-4 font-bold text-secondary" id="nav-notes" >Notes</button>
-            <button class="border-solid border-secondary border-2 p-4 font-bold text-secondary" id="nav-reminders" >Reminders </button>
+
+<body class="w-[40em] h-[50em] grid grid-cols-66 bg-primary" id="root">
+    <div class="flex flex-col">
+        <nav id="nav" class="h-[5em] grid grid-cols-3 ">
+            <button class="border-solid border-secondary border-2 p-4 font-bold text-secondary"
+                id="nav-todo">ToDos</button>
+            <button class="border-solid border-secondary border-2 p-4 font-bold text-secondary"
+                id="nav-notes">Notes</button>
+            <button class="border-solid border-secondary border-2 p-4 font-bold text-secondary"
+                id="nav-reminders">Reminders </button>
         </nav>
-        <section class="grid auto-rows-min h-full" id="content-Todo" >
-            <h1 class="m-2 text-lg" >Your TODOs</h1>
+        <section class="grid auto-rows-min h-full" id="content-Todo">
+            <h1 class="m-2 text-lg">Your TODOs</h1>
             <div id="todo_content">
-                
+
             </div>
         </section>
-        <section class="flex flex-col h-full" id="content-Notes" >
-            <h1 class="m-2 text-lg" >Your Notes</h1>
+        <section class="flex flex-col h-full" id="content-Notes">
+            <h1 class="m-2 text-lg">Your Notes</h1>
             <div id="note_content">
-                
+
             </div>
         </section>
-        <section class="flex flex-col h-full" id="content-Reminders" >
-            <h1 class="m-2 text-lg" >Your Reminders</h1>
+        <section class="flex flex-col h-full" id="content-Reminders">
+            <h1 class="m-2 text-lg">Your Reminders</h1>
             <div id="reminder_content">
-                
+
             </div>
         </section>
     </div>
-    <section class="grid grid-rows-sb border-solid border-secondary border-l-2 justify-between " >
-        <h2 class="h-[5em] text-lg p-4 font-bold" >
-            Add TODO:
+    <form  id="add-content-form" class="grid grid-rows-sb border-solid border-secondary border-l-2 justify-between ">
+        <h2 class="h-[5em] text-lg p-4 font-bold">
+            Add item:
         </h2>
-        <textarea placeholder="Your TODO here" type="text" class="m-2 bg-accent opacity-[70%] text-secondary font-bold text-start
-        border-solid border-2 border-secondary resize-none placeholder:text-secondary " ></textarea>
-        <button id="add_content" class="p-4 bg-secondary text-primary font-bold
-        hover:text-accent" >Add</button>
-    </section>
-    <script src="main.js" ></script>
-    <script src="requests.js" ></script>
+        <input id="form-title" placeholder="Title" type="text" class="m-2 bg-accent opacity-[70%] text-secondary font-bold text-start
+        border-solid border-2 border-secondary placeholder:text-secondary  " >
+        <textarea id="form-textarea" placeholder="Content" type="text" class="m-2 bg-accent opacity-[70%] text-secondary font-bold text-start
+        border-solid border-2 border-secondary resize-none placeholder:text-secondary "></textarea>
+        <input id="form-date" type="date" class="hidden bg-accent text-secondary m-2 mb-0 rounded-t-lg p-1 border-solid border-2 border-secondary border-b-0 ">
+        <input id="form-time" type="time" class="hidden bg-accent text-secondary m-2 mt-0 rounded-b-lg p-1 border-solid border-2 border-secondary border-t-0 ">
+        <button type="submit" id="add_content" class="p-4 bg-secondary text-primary font-bold
+        hover:text-accent">Add</button>
+    </form>
+    <script src="main.js"></script>
+    <script src="requests.js"></script>
 </body>
+
 </html>

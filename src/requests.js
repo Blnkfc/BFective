@@ -18,9 +18,16 @@ const currentDate = new Date()
 
 
 
+
 const todoPageContent = document.getElementById('todo_content')
 const notePageContent = document.getElementById('note_content')
 const reminderPageContent = document.getElementById('reminder_content')
+
+addClass(todoPageContent, "flex flex-col flex-col-reverse")
+addClass(notePageContent, "flex flex-col flex-col-reverse")
+addClass(reminderPageContent, "flex flex-col flex-col-reverse")
+
+
 const fetchAllTodos = async () => {
   const response = await fetch('http://localhost:3000/api/todos')
   const data = await response.json()
@@ -72,11 +79,11 @@ const rePopulateContent = async (fetchId) => {
       break
     }
     case 2: {
-      
-    const allNoteItems = await fetchAllNotes()
-    console.log(`all notes ${allNoteItems}`)
-    const noteContentReadOnlyMode = 'text-lg pl-1 bg-transparent text-white border-2 border-solid border-transparent outline-none group-open:animate-appear-from-bottom'
-    allNoteItems.forEach(n => {
+
+      const allNoteItems = await fetchAllNotes()
+      console.log(`all notes ${allNoteItems}`)
+      const noteContentReadOnlyMode = 'text-lg pl-1 bg-transparent text-white border-2 border-solid border-transparent outline-none group-open:animate-appear-from-bottom'
+      allNoteItems.forEach(n => {
         //Creating details tag with fetched content inside
         const noteElement = document.createElement('details')
         const noteTitle = document.createElement('summary')
@@ -129,8 +136,8 @@ const rePopulateContent = async (fetchId) => {
         addClass(settingsEdit, ' w-10 h-10 p-[0.5em] border-solid border-4 border-slate-700 rounded-lg group-open:animate-appear-from-left animation-delay-75 ')
         addClass(settingsSave, ' w-10 h-10 hidden p-[0.5em] border-solid border-4 border-green-600 rounded-lg')
         addClass(settingsDelete, ' relative w-10 h-10 p-[0.5em] ml-2 border-solid border-4 border-red-600 rounded-lg group-open:animate-appear-from-left')
-        
-        
+
+
         noteSettings.appendChild(settingsEdit)
         noteSettings.appendChild(settingsSave)
         noteSettings.appendChild(settingsDelete)
@@ -138,51 +145,51 @@ const rePopulateContent = async (fetchId) => {
         //SETTINGS BUTTONS EVENT LISTENERS
         //EDIT
         settingsEdit.addEventListener('click', () => {
-            addClass(settingsEdit, 'hidden')
-            addClass(settingsSave, 'inline')
-            removeClass(settingsEdit, 'inline')
-            removeClass(settingsSave, 'hidden')
-            noteContent.readOnly = false
-            removeClass(noteContent, 'border-transparent')
-            addClass(noteContent, 'border-slate-700')
-            noteContent.focus()
+          addClass(settingsEdit, 'hidden')
+          addClass(settingsSave, 'inline')
+          removeClass(settingsEdit, 'inline')
+          removeClass(settingsSave, 'hidden')
+          noteContent.readOnly = false
+          removeClass(noteContent, 'border-transparent')
+          addClass(noteContent, 'border-slate-700')
+          noteContent.focus()
         })
 
 
         //SAVE
         settingsSave.addEventListener('click', () => {
-            console.log('initial save press')
-            addClass(settingsEdit, 'inline')
-            addClass(settingsSave, 'hidden')
-            removeClass(settingsEdit, 'hidden')
-            removeClass(settingsSave, 'inline')
-            noteContent.readOnly = true
-            removeClass(noteContent, 'border-slate-700')
-            addClass(noteContent, 'border-transparent')
+          console.log('initial save press')
+          addClass(settingsEdit, 'inline')
+          addClass(settingsSave, 'hidden')
+          removeClass(settingsEdit, 'hidden')
+          removeClass(settingsSave, 'inline')
+          noteContent.readOnly = true
+          removeClass(noteContent, 'border-slate-700')
+          addClass(noteContent, 'border-transparent')
 
-            const updateNote = async () => {
-                const body = new NoteConstructor(noteTitle.textContent, noteContent.value)
-                console.log(body)
-                try {
-                    const response = await fetch(`http://localhost:3000/api/notes/${n?._id}`, {
-                        method: "PUT",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify(body)
-                    })
-                    const data = await response.json()
-                    console.log(data)
-                } catch (error) {
-                    console.log(`Error while updating requested note: ${error}`)
-                }
+          const updateNote = async () => {
+            const body = new NoteConstructor(noteTitle.textContent, noteContent.value)
+            console.log(body)
+            try {
+              const response = await fetch(`http://localhost:3000/api/notes/${n?._id}`, {
+                method: "PUT",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(body)
+              })
+              const data = await response.json()
+              console.log(data)
+            } catch (error) {
+              console.log(`Error while updating requested note: ${error}`)
             }
-            updateNote()
+          }
+          updateNote()
 
         })
         //DELETE
         settingsDelete.addEventListener('click', () => {
-            confirmDelete.show()
+          confirmDelete.show()
         })
 
 
@@ -200,7 +207,7 @@ const rePopulateContent = async (fetchId) => {
         noteElement.appendChild(noteTitle)
         noteElement.appendChild(noteContentWrapper)
         notePageContent.appendChild(noteElement)
-    })
+      })
       break
     }
     case 3: {
@@ -236,7 +243,7 @@ const rePopulateContent = async (fetchId) => {
         addClass(settingsEdit, ' w-10 h-10 p-[0.5em] border-solid border-4 border-slate-700 rounded-lg group-open:animate-appear-from-right ')
         addClass(settingsSave, ' w-10 h-10 hidden p-[0.5em] border-solid border-4 border-green-600 rounded-lg')
         addClass(settingsDelete, ' relative w-10 h-10 p-[0.5em] ml-2 border-solid border-4 border-red-600 rounded-lg group-open:animate-appear-from-right')
-        
+
 
 
         addClass(reminderTitle, 'text-xl font-bold mx-1 select-none')
@@ -258,36 +265,87 @@ const rePopulateContent = async (fetchId) => {
         reminderElement.appendChild(reminderContentWrapper)
         reminderPageContent.appendChild(reminderElement)
       });
-      
+
       break
     }
   }
-
-
 }
 
 rePopulateContent(1)
-
-const addTodoBtn = document.getElementById('add_content')
-addTodoBtn.addEventListener('click', async () => {
-  try {
-    const response = await fetch('http://localhost:3000/api/todos', {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      method: 'post',
-      body: JSON.stringify({
-        "title": "New todo",
-        "content": "Do this rn."
-      })
-    });
-    console.log('Completed!', response);
-  } catch (err) {
-    console.error(`Error: ${err}`);
+const addContentForm = document.getElementById('add-content-form')
+const formTitle = document.getElementById('form-title')
+const formContent = document.getElementById('form-textarea')
+const addContent = async(currentActivePage) => {
+  console.log("misc log")
+  switch(currentActivePage){
+    case 1:{
+      try {
+        const response = await fetch('http://localhost:3000/api/todos', {
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          method: 'post',
+          body: JSON.stringify({
+            "title": formTitle.value,
+            "content": formContent.value,
+            "date": new Date
+          })
+        });
+        console.log('Completed!', response);
+      } catch (err) {
+        console.error(`Error: ${err}`);
+      }
+      rePopulateContent(1)
+      break;
+    }
+    case 2:{
+      try {
+        const response = await fetch('http://localhost:3000/api/notes', {
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          method: 'post',
+          body: JSON.stringify({
+            "title": formTitle.value,
+            "content": formContent.value,
+            "date": new Date
+          })
+        });
+        console.log('Completed!', response);
+      } catch (err) {
+        console.error(`Error: ${err}`);
+      }
+      rePopulateContent(2)
+      break;
+    }
+    case 3:{
+      try {
+        const response = await fetch('http://localhost:3000/api/reminders', {
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          method: 'post',
+          body: JSON.stringify({
+            "title": formTitle.value,
+            "content": formContent.value,
+            "dateToRemind": new Date(formTime.value + formDate),
+            "date": new Date
+          })
+        });
+        console.log('Completed!', response);
+      } catch (err) {
+        console.error(`Error: ${err}`);
+      }
+      rePopulateContent(3)
+      break;
+    }
   }
-  rePopulateContent(1)
-});
+}
+
+addContentForm.addEventListener("submit", () => {addContent(currentActivePage)});
 
 
 

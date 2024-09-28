@@ -34,7 +34,7 @@ module.exports = {
         66: "2fr 1fr"
       },
       gridTemplateRows: {
-        sb: "1fr 4fr 0.5fr"
+        sb: "0.5fr 0.5fr 3fr 0.5fr"
       },
       plugins: [
         require("tailwindcss-animation-delay"),
