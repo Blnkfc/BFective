@@ -379,50 +379,55 @@ const addContent = async (currentActivePage) => {
       } catch (err) {
         console.error(`Error: ${err}`);
       }
-      rePopulateContent(1)
+      rePopulateContent(currentActivePage)
       break;
     }
     case 2: {
-      try {
-        const response = await fetch('http://localhost:3000/api/notes', {
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          method: 'post',
-          body: JSON.stringify({
-            "title": formTitle.value,
-            "content": formContent.value,
-            "date": new Date
-          })
-        });
-        console.log('Completed!', response);
-      } catch (err) {
-        console.error(`Error: ${err}`);
+      const postNote = async() =>{
+        try {
+          const response = await fetch('http://localhost:3000/api/notes', {
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            method: 'post',
+            body: JSON.stringify({
+              "title": formTitle.value,
+              "content": formContent.value,
+              "date": new Date
+            })
+          }).then(rePopulateContent(currentActivePage));
+          console.log('Completed!', response);
+        } catch (err) {
+          console.error(`Error: ${err}`);
+        }
       }
-      rePopulateContent(2)
+      postNote()
       break;
     }
     case 3: {
-      try {
-        const response = await fetch('http://localhost:3000/api/reminders', {
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          method: 'post',
-          body: JSON.stringify({
-            "title": formTitle.value,
-            "content": formContent.value,
-            "dateToRemind": new Date(formTime.value + formDate),
-            "date": new Date
-          })
-        });
-        console.log('Completed!', response);
-      } catch (err) {
-        console.error(`Error: ${err}`);
+      const postReminder = async() => {
+        try {
+          const response = await fetch('http://localhost:3000/api/reminders', {
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            method: 'post',
+            body: JSON.stringify({
+              "title": formTitle.value,
+              "content": formContent.value,
+              "dateToRemind": new Date(formDateTime.value),
+              "date": new Date
+            })
+          });
+          console.log('Completed!', response);
+        } catch (err) {
+          console.error(`Error: ${err}`);
+        }
       }
-      rePopulateContent(3)
+      postReminder()
+      rePopulateContent(currentActivePage)
       break;
     }
   }

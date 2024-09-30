@@ -1,6 +1,8 @@
 let currentActivePage = 1
 
 
+
+
 function deleteClass(element, classStr) {
     if (element)
         element.className = (' ' + element.className + ' ').split(' ' + classStr + ' ').join(' ');
@@ -17,8 +19,9 @@ const TODO = document.getElementById('content-Todo')
 const Notes = document.getElementById('content-Notes')
 const Reminders = document.getElementById('content-Reminders')
 
-const formDate = document.getElementById('form-date')
-const formTime = document.getElementById('form-time')
+const formDateTime = document.getElementById('form-datetime')
+
+
 
 
 const disabledNavButtonString = ' bg-accent border-solid border-secondary border-2 p-4 font-bold text-secondary border-t-0 border-x-0  text-white  '
@@ -43,13 +46,11 @@ function setPage(id) {
                 deleteClass(Notes, 'flex')
                 deleteClass(Reminders, 'flex')
 
-                if(formDate.classList.contains('block')){
-                    removeClass(formDate, 'block')
-                    removeClass(formTime, 'block')
-                    addClass(formDate, 'hidden')
-                    addClass(formTime, 'hidden')
+                if(formDateTime.classList.contains('block')){
+                    removeClass(formDateTime, 'block')
+                    addClass(formDateTime, 'hidden')
                 }
-                
+                localStorage.setItem("currentActivePage", 1)
                 break
             }
             //set active page = notes
@@ -70,13 +71,11 @@ function setPage(id) {
                 deleteClass(Notes, 'hidden')
                 deleteClass(Reminders, 'flex')
 
-                if(formDate.classList.contains('block')){
-                    removeClass(formDate, 'block')
-                    removeClass(formTime, 'block')
-                    addClass(formDate, 'hidden')
-                    addClass(formTime, 'hidden')
+                if(formDateTime.classList.contains('block')){
+                    removeClass(formDateTime, 'block')
+                    addClass(formDateTime, 'hidden')
                 }
-
+                localStorage.setItem("currentActivePage", 2)
                 break
             }
             //set active page = reminders
@@ -96,10 +95,9 @@ function setPage(id) {
                 deleteClass(Notes, 'flex')
                 deleteClass(Reminders, 'hidden')
 
-                removeClass(formDate, 'hidden')
-                removeClass(formTime, 'hidden')
-                addClass(formDate, 'block')
-                addClass(formTime, 'block')
+                removeClass(formDateTime, 'hidden')
+                addClass(formDateTime, 'block')
+                localStorage.setItem("currentActivePage", 3)
                 break
             }
             default: {
@@ -109,6 +107,7 @@ function setPage(id) {
     }
 }
 setPage(currentActivePage)
+
 
 navTodo.addEventListener('click', () => { setPage(1); currentActivePage = 1 })
 navNotes.addEventListener('click', () => { setPage(2); currentActivePage = 2 })
