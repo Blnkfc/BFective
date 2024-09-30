@@ -62,18 +62,80 @@ const rePopulateContent = async (fetchId) => {
         const todoElement = document.createElement('details')
         const todoTitle = document.createElement('summary')
         const todoContent = document.createElement('div')
+        const deleteTodoBtn = document.createElement('button')
+        const deleteTodoBtnTmg = document.createElement('img')
+        deleteTodoBtnTmg.src = 'https://i.imgur.com/Ey0yR4T.png'
+        deleteTodoBtn.appendChild(deleteTodoBtnTmg)
+        const confirmDeleteTodo = document.createElement('dialog')
+        addClass(deleteTodoBtn, ' relative w-10 h-10 p-[0.5em] ml-2 border-solid border-4 border-red-600 rounded-lg group-open:animate-appear-from-left')
+
+        
+        const confirmDeleteTodoText = document.createElement('span')
+        confirmDeleteTodoText.textContent = 'Delete current note?'
+        const confirmDeleteTodoBtn = document.createElement('button')
+        confirmDeleteTodoBtn.textContent = 'CONFIRM'
+        const cancelDeleteTodoBtn = document.createElement('button')
+        cancelDeleteTodoBtn.textContent = '↺'
+        addClass(confirmDeleteTodo, ' absolute   left-0 top-0 w-full h-full bg-red-400 content-center ')
+        addClass(confirmDeleteTodoText, 'text-lg mr-[0.5em] ')
+        addClass(confirmDeleteTodoBtn, 'text-lg h-fit font-bold border-solid border-2 border-red-600 rounded-lg ')
+        addClass(cancelDeleteTodoBtn, 'text-lg h-fit color-slate-600 border-solid border-2 border-slate-600 rounded-lg px-2')
+
+        cancelDeleteTodoBtn.addEventListener('click', () => {
+          confirmDeleteTodo.close()
+        })
+        
+        confirmDeleteTodoBtn.addEventListener('click', () => {
+          const deleteTodo = async() => {
+            try {
+              const response = await fetch(`http://localhost:3000/api/todos/${t?._id}`, {
+                method: "DELETE",
+                headers: {
+                  "Content-Type": "application/json",
+                }
+              })
+              if(response.ok)
+                {
+                  console.log('Deleted the Todo succesfully')
+                }else{
+                  throw new Error('Error deleting the todo')
+                }
+
+            } catch (error) {
+              console.log(`Error deleting todo: ${error}`)
+            }
+          }      
+          deleteTodo()    
+          rePopulateContent(fetchId)
+          confirmDeleteTodo.close()
+        })
+
+        confirmDeleteTodo.appendChild(confirmDeleteTodoText)
+        confirmDeleteTodo.appendChild(confirmDeleteTodoBtn)
+        confirmDeleteTodo.appendChild(cancelDeleteTodoBtn)
+        
+
+        
+
+        deleteTodoBtn.addEventListener('click', () => {
+          confirmDeleteTodo.show()
+        })
+
+        
 
 
 
         addClass(todoTitle, 'text-xl font-bold mx-1')
         addClass(todoContent, 'text-white text-lg border-accent border-solid border-2 mx-1 bg-accent rounded-b-md transition-all ease-linear group-open:animate-appear-from-bottom')
-        addClass(todoElement, 'open:border-solid open:border-2 open:border-secondary open:bg-accent hover:cursor-pointer group ')
+        addClass(todoElement, 'relative open:border-solid open:border-2 open:border-secondary open:bg-accent hover:cursor-pointer group ')
 
 
         todoTitle.textContent = t.title
         todoContent.textContent = t.content
         todoElement.appendChild(todoTitle)
         todoElement.appendChild(todoContent)
+        todoElement.appendChild(deleteTodoBtn)
+        todoElement.appendChild(confirmDeleteTodo)
         todoPageContent.appendChild(todoElement)
       });
       break
@@ -120,7 +182,28 @@ const rePopulateContent = async (fetchId) => {
         addClass(cancelDeleteBtn, 'text-lg h-fit color-slate-600 border-solid border-2 border-slate-600 rounded-lg px-2')
 
         confirmDeleteBtn.addEventListener('click', () => {
+          const deleteNote = async () => {
+            try {
+              const response = await fetch(`http://localhost:3000/api/notes/${n?._id}`, {
+                method: "DELETE",
+                headers: {
+                  "Content-Type": "application/json",
+                }
+              })
+              if(response.ok)
+                {
+                  console.log('Deleted the Note succesfully')
+                }else{
+                  throw new Error('Error deleting the note')
+                }
+
+            } catch (error) {
+              console.log(`Error deleting item: ${error}`)
+            }
+          }
+          deleteNote()
           confirmDelete.close()
+          rePopulateContent(fetchId)
         })
         cancelDeleteBtn.addEventListener('click', () => {
           confirmDelete.close()
@@ -275,10 +358,10 @@ rePopulateContent(1)
 const addContentForm = document.getElementById('add-content-form')
 const formTitle = document.getElementById('form-title')
 const formContent = document.getElementById('form-textarea')
-const addContent = async(currentActivePage) => {
+const addContent = async (currentActivePage) => {
   console.log("misc log")
-  switch(currentActivePage){
-    case 1:{
+  switch (currentActivePage) {
+    case 1: {
       try {
         const response = await fetch('http://localhost:3000/api/todos', {
           headers: {
@@ -299,7 +382,7 @@ const addContent = async(currentActivePage) => {
       rePopulateContent(1)
       break;
     }
-    case 2:{
+    case 2: {
       try {
         const response = await fetch('http://localhost:3000/api/notes', {
           headers: {
@@ -320,7 +403,7 @@ const addContent = async(currentActivePage) => {
       rePopulateContent(2)
       break;
     }
-    case 3:{
+    case 3: {
       try {
         const response = await fetch('http://localhost:3000/api/reminders', {
           headers: {
@@ -345,7 +428,7 @@ const addContent = async(currentActivePage) => {
   }
 }
 
-addContentForm.addEventListener("submit", () => {addContent(currentActivePage)});
+addContentForm.addEventListener("submit", () => { addContent(currentActivePage) });
 
 
 

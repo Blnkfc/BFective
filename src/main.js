@@ -23,9 +23,6 @@ const formTime = document.getElementById('form-time')
 
 const disabledNavButtonString = ' bg-accent border-solid border-secondary border-2 p-4 font-bold text-secondary border-t-0 border-x-0  text-white  '
 const enabledNavButtonString = ' bg-primary border-solid border-secondary border-2 p-4 font-bold text-secondary border-b-0 '
-//TODO Create function to clear all classes from element and add strings for enabled and disabled nav buttons
-//TODO Make switch cases clear all classes before adding new class, and use default strings for list of all classes
-//TODO If clearing all classes and switching them with default string works correctly, removeClass will be obsolete
 function setPage(id) {
     if(navTodo && navNotes && navReminders){
         switch (id) {
